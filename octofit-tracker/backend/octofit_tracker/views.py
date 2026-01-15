@@ -26,10 +26,11 @@ class LeaderboardViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def api_root(request, format=None):
+    api_prefix = '/api/'
     return Response({
-        'users': '/users/',
-        'teams': '/teams/',
-        'activities': '/activities/',
-        'workouts': '/workouts/',
-        'leaderboards': '/leaderboards/',
+        'users': f'{api_prefix}users/',
+        'teams': f'{api_prefix}teams/',
+        'activities': f'{api_prefix}activities/',
+        'workouts': f'{api_prefix}workouts/',
+        'leaderboards': f'{api_prefix}leaderboards/',
     })

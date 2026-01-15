@@ -26,8 +26,14 @@ router.register(r'activities', ActivityViewSet)
 router.register(r'workouts', WorkoutViewSet)
 router.register(r'leaderboards', LeaderboardViewSet)
 
+from django.conf import settings
+import os
+
+# Use $CODESPACE_NAME for documentation/example, but do not hardcode in URLs
+API_PREFIX = 'api/'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', api_root, name='api-root'),
-    path('', include(router.urls)),
+    path(f'{API_PREFIX}', api_root, name='api-root'),
+    path(f'{API_PREFIX}', include(router.urls)),
 ]
