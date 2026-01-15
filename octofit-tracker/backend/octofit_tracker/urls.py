@@ -26,14 +26,33 @@ router.register(r'activities', ActivityViewSet)
 router.register(r'workouts', WorkoutViewSet)
 router.register(r'leaderboards', LeaderboardViewSet)
 
+
 from django.conf import settings
 import os
 
-# Use $CODESPACE_NAME for documentation/example, but do not hardcode in URLs
+# API prefix for all endpoints
 API_PREFIX = 'api/'
+
+def api_docs(request):
+    """
+    Returns a simple documentation page with the correct Codespace URL for API usage.
+    """
+    codespace_name = os.environ.get('CODESPACE_NAME', '[CODESPACE_NAME]')
+    base_url = f"https://{codespace_name}-8000.app.github.dev/"
+    return HttpResponse(f"""
+        <h2>Octofit Tracker API</h2>
+        <p>Use the following base URL for API requests in Codespaces:</p>
+        <pre>{base_url}api/&lt;component&gt;/</pre>
+        <p>Example: <code>{base_url}api/activities/</code></p>
+        <p>For local development, use <code>http://localhost:8000/api/&lt;component&gt;/</code></p>
+        <p><b>Note:</b> If you see HTTPS certificate warnings, you can safely ignore them in Codespaces.</p>
+    """, content_type="text/html")
+
+from django.http import HttpResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', api_docs, name='api-docs'),
     path(f'{API_PREFIX}', api_root, name='api-root'),
     path(f'{API_PREFIX}', include(router.urls)),
 ]

@@ -27,11 +27,14 @@ DEBUG = True
 
 import os
 
-# Allow localhost and Codespace URL
+
+# Allow localhost and Codespace URL for development and API testing
 CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 if CODESPACE_NAME:
     ALLOWED_HOSTS.append(f'{CODESPACE_NAME}-8000.app.github.dev')
+# For Codespaces, Django will accept requests from the public HTTPS URL and localhost.
+# If you see HTTPS certificate warnings in Codespaces, you can safely ignore them for development.
 
 
 # Application definition
